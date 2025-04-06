@@ -1,23 +1,27 @@
-# ejemplos.py
-
+# ejemplo.py
+import numpy as np
 from sparse_matrix import TPMMatrix
 
-# Paso 1: Crear una matriz TPM con 3 variables binarias
+# Crear una matriz TPM de 3 variables
 n = 3
-tpm = TPMMatrix(n=n, init_random=False)  # no inicializa con random
+tpm = TPMMatrix(n)
 
-# Paso 2: Definir un estado binario específico
-estado = [1, 0, 1]  # este es un estado del tiempo t
+# Mostrar las probabilidades originales de un estado
+estado = [1, 0, 1]
+print("Probabilidades originales del estado [1, 0, 1]:")
+print(tpm.get_next_probabilities(estado))
 
-# Paso 3: Asignar una probabilidad para la variable 2 en t+1
-nueva_probabilidad = 0.75
-indice_variable = 2  # la tercera variable (C)
-tpm.set_probability(estado, indice_variable, nueva_probabilidad)
+# Normalizar explícitamente la fila correspondiente a [1, 0, 1]
+tpm.normalize_row(estado)
 
-# Paso 4: Obtener las probabilidades del estado en t+1
-probabilidades = tpm.get_next_probabilities(estado)
+print("\nProbabilidades normalizadas del estado [1, 0, 1]:")
+print(tpm.get_next_probabilities(estado))
 
-# Paso 5: Mostrar el resultado
-print(f"Probabilidades para el estado {estado} en t+1:")
-for i, p in enumerate(probabilidades):
-    print(f" - Variable {i}: {p:.2f}")
+# Crear un vector de estado actual (uniforme)
+current_state_vector = np.ones(2**n) / (2**n)
+
+# Aplicar la transición dispersa
+next_state = tpm.apply_transition_sparse(current_state_vector)
+
+print("\nResultado de la transición usando apply_transition_sparse:")
+print(next_state)
