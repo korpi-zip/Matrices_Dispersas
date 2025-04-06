@@ -11,6 +11,14 @@ estado = [1, 0, 1]
 print("Probabilidades originales del estado [1, 0, 1]:")
 print(tpm.get_next_probabilities(estado))
 
+# Modificar explícitamente la fila correspondiente al estado [1, 0, 1]
+tpm.set_probability(estado, 0, 0.5)  # Asignar 0.5 a la primera variable
+tpm.set_probability(estado, 1, 0.3)  # Asignar 0.3 a la segunda variable
+tpm.set_probability(estado, 2, 0.8)  # Asignar 0.8 a la tercera variable
+
+print("\nProbabilidades modificadas del estado [1, 0, 1]:")
+print(tpm.get_next_probabilities(estado))
+
 # Normalizar explícitamente la fila correspondiente a [1, 0, 1]
 tpm.normalize_row(estado)
 
